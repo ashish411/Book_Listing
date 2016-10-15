@@ -7,11 +7,17 @@ public class Books {
     private String bookTitle;
     private String bookAuthor;
     private String bookPublisher;
+    private String mUrl;
 
-    public Books(String bookTitle, String bookAuthor, String bookPublisher) {
+    public Books(String bookTitle, String bookAuthor, String bookPublisher, String Url) {
         this.bookTitle = bookTitle;
         this.bookAuthor = bookAuthor;
         this.bookPublisher = bookPublisher;
+        mUrl=Url;
+    }
+
+    public String getmUrl() {
+        return mUrl;
     }
 
     public String getBookTitle() {

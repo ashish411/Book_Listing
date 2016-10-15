@@ -67,8 +67,10 @@ public class QueryUtils {
                 Log.i("author_book",author);
                 String publisher = volumeInfo.getString("publisher");
                 Log.i("publisher_book",publisher);
+                String website = volumeInfo.getString("previewLink");
+                Log.i("url",website);
 
-                booksArray.add(new Books(title,author,publisher));
+                booksArray.add(new Books(title,author,publisher,website));
             }
 
         } catch (JSONException e) {
