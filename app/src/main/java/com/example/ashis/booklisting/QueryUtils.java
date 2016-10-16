@@ -24,13 +24,13 @@ import java.util.List;
 /**
  * Created by ashis on 10/14/2016.
  */
-public class QueryUtils {
+public final class QueryUtils {
 
     public QueryUtils() {
+        throw new AssertionError("No QueryUtils instance for you!");
     }
 
-    public static List<Books> fetchBookData(String requestUrl)
-    {
+    public static List<Books> fetchBookData(String requestUrl) {
         URL url = createUrl(requestUrl);
 
         String jsonResponse = makeHTTP(url);
@@ -44,7 +44,7 @@ public class QueryUtils {
 
         URL url = null;
         try {
-            url=new URL(requestUrl);
+            url = new URL(requestUrl);
             try {
                 URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort(), url.getPath(), url.getQuery(), url.getRef());
                 url = uri.toURL();
@@ -58,31 +58,32 @@ public class QueryUtils {
         return url;
     }
 
-    public static List<Books> extractFromJson(String jsonResponse){
-        if (TextUtils.isEmpty(jsonResponse)){
+    public static List<Books> extractFromJson(String jsonResponse) {
+        if (TextUtils.isEmpty(jsonResponse)) {
             return null;
         }
         final List<Books> booksArray = new ArrayList<>();
         try {
             JSONObject root = new JSONObject(jsonResponse);
             JSONArray itemsArray = root.optJSONArray("items");
-            if (itemsArray.length()<1){
+            if (itemsArray.length() < 1) {
                 return null;
             }
-            for (int i=0;i<itemsArray.length();i++){
+            for (int i = 0; i < itemsArray.length(); i++) {
                 JSONObject singleItem = itemsArray.getJSONObject(i);
                 JSONObject volumeInfo = singleItem.getJSONObject("volumeInfo");
                 String title = volumeInfo.getString("title");
-                Log.i("title_book",title);
+                Log.i("title_book", title);
 
                 String author = volumeInfo.getString("authors");
-                Log.i("author_book",author);
-                String publisher = volumeInfo.getString("publisher");
-                Log.i("publisher_book",publisher);
+                Log.i("author_book", author);
+                String publisher = "No Publisher";
+                if (volumeInfo.has("publisher"))
+                    publisher = volumeInfo.getString("publisher");
                 String website = volumeInfo.getString("previewLink");
-                Log.i("url",website);
+                Log.i("url", website);
 
-                booksArray.add(new Books(title,author,publisher,website));
+                booksArray.add(new Books(title, author, publisher, website));
             }
 
         } catch (JSONException e) {
@@ -91,9 +92,9 @@ public class QueryUtils {
         return booksArray;
     }
 
-    public static String makeHTTP(URL url){
+    public static String makeHTTP(URL url) {
         String jsonResponse = "";
-        if (url == null){
+        if (url == null) {
             return jsonResponse;
         }
         HttpURLConnection connection = null;
@@ -106,7 +107,7 @@ public class QueryUtils {
             connection.setConnectTimeout(15000);
             connection.connect();
             int serverCode = connection.getResponseCode();
-            Log.i("server_Code",String.valueOf(serverCode));
+            Log.i("server_Code", String.valueOf(serverCode));
             if (serverCode == 200) {
                 inputStream = connection.getInputStream();
                 jsonResponse = readFromInputStream(inputStream);
@@ -115,10 +116,10 @@ public class QueryUtils {
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            if (connection!=null){
+            if (connection != null) {
                 connection.disconnect();
             }
-            if (inputStream!=null){
+            if (inputStream != null) {
                 try {
                     inputStream.close();
                 } catch (IOException e) {
@@ -131,7 +132,7 @@ public class QueryUtils {
 
     private static String readFromInputStream(InputStream inputStream) throws IOException {
         StringBuilder output = new StringBuilder();
-        if (inputStream!= null) {
+        if (inputStream != null) {
             InputStreamReader inputReader = new InputStreamReader(inputStream, Charset.forName("UTF-8"));
             BufferedReader bufferReader = new BufferedReader(inputReader);
             String line = bufferReader.readLine();
@@ -140,6 +141,6 @@ public class QueryUtils {
                 line = bufferReader.readLine();
             }
         }
-        return output.toString() ;
+        return output.toString();
     }
 }

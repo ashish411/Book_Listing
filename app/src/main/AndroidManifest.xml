@@ -3,6 +3,7 @@
     package="com.example.ashis.booklisting">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application
         android:allowBackup="true"
@@ -11,12 +12,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity"
-            android:parentActivityName=".Search_Activity">
+            android:parentActivityName=".searchActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Search_Activity"/>
+                android:value=".searchActivity"/>
         </activity>
-        <activity android:name=".Search_Activity">
+        <activity android:name=".searchActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

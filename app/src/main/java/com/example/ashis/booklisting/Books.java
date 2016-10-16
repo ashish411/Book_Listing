@@ -13,7 +13,7 @@ public class Books {
         this.bookTitle = bookTitle;
         this.bookAuthor = bookAuthor;
         this.bookPublisher = bookPublisher;
-        mUrl=Url;
+        mUrl = Url;
     }
 
     public String getmUrl() {

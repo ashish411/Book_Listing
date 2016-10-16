@@ -15,14 +15,14 @@ import java.util.ArrayList;
  */
 public class CustomAdapter extends ArrayAdapter<Books> {
     public CustomAdapter(Activity context, ArrayList<Books> booksArrayList) {
-        super(context,0,booksArrayList);
+        super(context, 0, booksArrayList);
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View rootView = convertView;
-        if (rootView== null){
-            rootView= LayoutInflater.from(getContext()).inflate(R.layout.custom_layout,parent,false);
+        if (rootView == null) {
+            rootView = LayoutInflater.from(getContext()).inflate(R.layout.custom_layout, parent, false);
         }
         final Books currentBook = getItem(position);
         String title = currentBook.getBookTitle();
@@ -34,7 +34,7 @@ public class CustomAdapter extends ArrayAdapter<Books> {
         authorText.setText(author);
 
         String publisher = currentBook.getBookPublisher();
-        TextView publisherText = (TextView)rootView.findViewById(R.id.textView_publisher);
+        TextView publisherText = (TextView) rootView.findViewById(R.id.textView_publisher);
         publisherText.setText(publisher);
 
         return rootView;
