@@ -25,7 +25,7 @@ public class Search_Activity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                 intent.putExtra("searchQuery",searchText);
                 startActivity(intent);
-
+                finish();
             }
         });
     }

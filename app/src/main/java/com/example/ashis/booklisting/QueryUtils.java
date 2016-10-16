@@ -1,5 +1,6 @@
 package com.example.ashis.booklisting;
 
+import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -13,6 +14,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -33,13 +36,22 @@ public class QueryUtils {
         String jsonResponse = makeHTTP(url);
 
         List<Books> books = extractFromJson(jsonResponse);
+
         return books;
     }
 
     private static URL createUrl(String requestUrl) {
+
         URL url = null;
         try {
             url=new URL(requestUrl);
+            try {
+                URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort(), url.getPath(), url.getQuery(), url.getRef());
+                url = uri.toURL();
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
+
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
@@ -54,11 +66,11 @@ public class QueryUtils {
         try {
             JSONObject root = new JSONObject(jsonResponse);
             JSONArray itemsArray = root.optJSONArray("items");
+            if (itemsArray.length()<1){
+                return null;
+            }
             for (int i=0;i<itemsArray.length();i++){
-
                 JSONObject singleItem = itemsArray.getJSONObject(i);
-
-
                 JSONObject volumeInfo = singleItem.getJSONObject("volumeInfo");
                 String title = volumeInfo.getString("title");
                 Log.i("title_book",title);
